@@ -99,7 +99,7 @@ dep deploy orewire.ca
 
 1. Create `deployer` user with SSH key access
 2. Clone to `~/orewire-laravel`
-3. Configure web server (nginx/Caddy) for `orewire.ca`
+3. Configure Caddy: copy `Caddyfile` to `/etc/caddy/Caddyfile` and reload Caddy. Adjust `php_fastcgi` socket if needed (e.g. `php8.4-fpm.sock`)
 4. Install systemd user service for Inertia SSR:
 
 ```bash

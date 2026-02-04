@@ -5,30 +5,53 @@ on:
     branches:
       - develop
       - main
-      - master
-      - workos
   pull_request:
     branches:
       - develop
       - main
-      - master
-      - workos
 
 jobs:
-  ci:
+  lint:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        php-version: ['8.4', '8.5']
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v6
+      - uses: actions/checkout@v4
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@2.35.5
         with:
-          php-version: ${{ matrix.php-version }}
+          php-version: '8.4'
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: |
+          composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+          npm ci
+
+      - name: Run Pint
+        run: vendor/bin/pint
+
+      - name: Format Frontend
+        run: npm run format
+
+      - name: Lint Frontend
+        run: npm run lint
+
+  test:
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@2.35.5
+        with:
+          php-version: '8.4'
           tools: composer:v2
           coverage: xdebug
 
@@ -36,9 +59,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-
-      - name: Install Node Dependencies
-        run: npm i
+          cache: 'npm'
 
       - name: Install Dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
@@ -49,8 +70,17 @@ jobs:
       - name: Generate Application Key
         run: php artisan key:generate
 
+      - name: Install Node Dependencies
+        run: npm ci
+
       - name: Build Assets
         run: npm run build
 
-      - name: Tests
-        run: ./vendor/bin/pest
+      - name: PHP tests
+        run: composer test
+
+      - name: Frontend type checking
+        run: npm run type-check
+
+      - name: Frontend tests
+        run: npm run test
