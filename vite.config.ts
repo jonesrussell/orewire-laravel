@@ -24,4 +24,20 @@ export default defineConfig({
             },
         }),
     ],
+    server: {
+        host: 'localhost',
+        port: 5173,
+        strictPort: true,
+        origin: process.env.VITE_SERVER_URI || 'http://localhost:5173',
+        hmr: process.env.VITE_SERVER_URI
+            ? {
+                  host: 'vite.orewire-laravel.ddev.site',
+                  protocol: 'wss',
+                  clientPort: 443,
+              }
+            : undefined,
+        cors: process.env.VITE_SERVER_URI
+            ? { origin: [/^https?:\/\/.*\.ddev\.site(:\d+)?$/] }
+            : undefined,
+    },
 });

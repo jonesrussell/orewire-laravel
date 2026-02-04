@@ -1,0 +1,7 @@
+# Vite dev server: proxied at https://vite.orewire-laravel.ddev.site
+# Run "ddev vite" to start the Vite dev server, then visit https://orewire-laravel.ddev.site
+additional_hostnames:
+  - vite.orewire-laravel
+web_environment:
+  - VITE_SERVER_URI=https://vite.orewire-laravel.ddev.site
+  - VITE_PACKAGE_MANAGER=npm
