@@ -100,13 +100,14 @@ dep deploy orewire.ca
 1. Create `deployer` user with SSH key access
 2. Clone to `~/orewire-laravel`
 3. Configure Caddy: copy `Caddyfile` to `/etc/caddy/Caddyfile` and reload Caddy. Adjust `php_fastcgi` socket if needed (e.g. `php8.4-fpm.sock`)
-4. Install systemd user service for Inertia SSR:
+4. Install systemd user services (prefixed with `orewire-` to avoid conflicts with other projects sharing `~/.config/systemd/user/`):
 
 ```bash
-cp deploy/systemd-user/inertia-ssr.service ~/.config/systemd/user/
+cp deploy/systemd-user/orewire-*.service ~/.config/systemd/user/
+sudo loginctl enable-linger deployer
 systemctl --user daemon-reload
-systemctl --user enable inertia-ssr
-systemctl --user start inertia-ssr
+systemctl --user enable orewire-inertia-ssr orewire-horizon orewire-schedule-work
+systemctl --user start orewire-inertia-ssr orewire-horizon orewire-schedule-work
 ```
 
 5. Set `DRILLFEED_INGEST_TOKEN` and other env vars in production `.env`
