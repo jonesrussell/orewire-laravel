@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
-import type { MiningArticle } from '@/types';
+import { Calendar, User, ExternalLink } from 'lucide-vue-next';
 import MiningArticleCard from '@/components/MiningArticleCard.vue';
 import { Badge } from '@/components/ui/badge';
-import { Calendar, User, ExternalLink } from 'lucide-vue-next';
+import type { MiningArticle } from '@/types';
 
 interface Props {
   article: MiningArticle;

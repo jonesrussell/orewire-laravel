@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { Head, Link, router } from '@inertiajs/vue3';
-import type { MiningArticle, PaginatedMiningArticles } from '@/types';
-import MiningArticleCard from '@/components/MiningArticleCard.vue';
-import CommodityFilter from '@/components/CommodityFilter.vue';
-import JurisdictionFilter from '@/components/JurisdictionFilter.vue';
-import { Input } from '@/components/ui/input';
 import { Search, Menu } from 'lucide-vue-next';
 import { ref } from 'vue';
+import CommodityFilter from '@/components/CommodityFilter.vue';
+import JurisdictionFilter from '@/components/JurisdictionFilter.vue';
+import MiningArticleCard from '@/components/MiningArticleCard.vue';
+import { Input } from '@/components/ui/input';
+import type { MiningArticle, PaginatedMiningArticles } from '@/types';
 
 interface Props {
   articles: PaginatedMiningArticles;

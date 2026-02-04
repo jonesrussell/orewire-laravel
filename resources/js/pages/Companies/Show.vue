@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
-import type { Company, PaginatedMiningArticles } from '@/types';
 import MiningArticleCard from '@/components/MiningArticleCard.vue';
+import type { Company, PaginatedMiningArticles } from '@/types';
 
 interface Props {
   company: Company;

@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
-import type { MiningArticle, DrillResult, Company } from '@/types';
-import MiningArticleCard from '@/components/MiningArticleCard.vue';
-import DrillResultCard from '@/components/DrillResultCard.vue';
-import CompanyCard from '@/components/CompanyCard.vue';
-import MetalPricesWidget from '@/components/MetalPricesWidget.vue';
-import { Input } from '@/components/ui/input';
+import { router } from '@inertiajs/vue3';
 import { Search, Menu } from 'lucide-vue-next';
 import { ref } from 'vue';
-import { router } from '@inertiajs/vue3';
+import CompanyCard from '@/components/CompanyCard.vue';
+import DrillResultCard from '@/components/DrillResultCard.vue';
+import MetalPricesWidget from '@/components/MetalPricesWidget.vue';
+import MiningArticleCard from '@/components/MiningArticleCard.vue';
+import { Input } from '@/components/ui/input';
+import type { MiningArticle, DrillResult, Company } from '@/types';
 
 interface Props {
   latestArticles: MiningArticle[];

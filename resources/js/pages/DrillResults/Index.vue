@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
-import type { DrillResult, PaginatedDrillResults } from '@/types';
-import DrillResultCard from '@/components/DrillResultCard.vue';
 import { router } from '@inertiajs/vue3';
+import DrillResultCard from '@/components/DrillResultCard.vue';
+import type { DrillResult, PaginatedDrillResults } from '@/types';
 
 interface Props {
   drillResults: PaginatedDrillResults;
