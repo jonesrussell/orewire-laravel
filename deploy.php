@@ -6,7 +6,7 @@ require 'recipe/laravel.php';
 
 // Config
 
-set('repository', 'git@github.com:jonesrussell/orewire-laravel.git');
+set('repository', 'git@github-orewire:jonesrussell/orewire-laravel.git');
 set('keep_releases', 5);
 
 add('shared_files', []);
