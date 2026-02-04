@@ -28,6 +28,7 @@ host('orewire.ca')
 // Hooks
 
 after('deploy:failed', 'deploy:unlock');
-after('deploy:symlink', function (): void {
+task('deploy:stop_inertia_ssr', function (): void {
     run('cd {{release_path}} && {{bin/php}} artisan inertia:stop-ssr', ['allow_failure' => true]);
 });
+after('deploy:symlink', 'deploy:stop_inertia_ssr');
