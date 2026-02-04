@@ -29,6 +29,15 @@ This project has domain-specific skills available. You MUST activate the relevan
 - `pest-testing` — Tests applications using the Pest 4 PHP framework. Activates when writing tests, creating unit or feature tests, adding assertions, testing Livewire components, browser testing, debugging test failures, working with datasets or mocking; or when the user mentions test, spec, TDD, expects, assertion, coverage, or needs to verify functionality works.
 - `developing-with-fortify` — Laravel Fortify headless authentication backend development. Activate when implementing authentication features including login, registration, password reset, email verification, two-factor authentication (2FA/TOTP), profile updates, headless auth, authentication scaffolding, or auth guards in Laravel applications.
 
+## Development Commands (DDEV)
+
+For local development, use `ddev artisan` instead of `php artisan`:
+
+- `ddev artisan migrate`
+- `ddev artisan db:seed`
+- `ddev artisan test --compact`
+- `ddev artisan wayfinder:generate`
+
 ## Conventions
 
 - You must follow all existing code conventions used in this application. When creating or editing a file, check sibling files for the correct structure, approach, and naming.

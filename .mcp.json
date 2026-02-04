@@ -3,10 +3,13 @@
         "laravel-boost": {
             "command": "wsl.exe",
             "args": [
-                "/home/linuxbrew/.linuxbrew/Cellar/php/8.5.2/bin/php",
-                "/home/jones/dev/drillfeed-laravel/artisan",
+                "ddev",
+                "exec",
+                "php",
+                "artisan",
                 "boost:mcp"
-            ]
+            ],
+            "cwd": "/home/jones/dev/drillfeed-laravel"
         }
     }
 }
