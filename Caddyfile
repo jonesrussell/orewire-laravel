@@ -3,6 +3,12 @@
 orewire.ca {
     root * /home/deployer/orewire-laravel/current/public
     encode gzip
-    file_server
-    php_fastcgi unix//run/php/php8.4-fpm.sock
+    # Serve Vite build assets statically before PHP (Caddy runs php_fastcgi before file_server by default)
+    handle /build/* {
+        file_server
+    }
+    handle {
+        php_fastcgi unix//run/php/php8.4-fpm.sock
+        file_server
+    }
 }
