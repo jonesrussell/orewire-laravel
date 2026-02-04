@@ -22,7 +22,8 @@ after('deploy:vendors', 'deploy:build_assets');
 
 host('orewire.ca')
     ->set('remote_user', 'deployer')
-    ->set('deploy_path', '~/orewire-laravel');
+    ->set('deploy_path', '~/orewire-laravel')
+    ->set('http_user', 'www-data');
 
 // Hooks
 
