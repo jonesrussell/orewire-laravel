@@ -6,7 +6,7 @@ import CommodityFilter from '@/components/CommodityFilter.vue';
 import JurisdictionFilter from '@/components/JurisdictionFilter.vue';
 import MiningArticleCard from '@/components/MiningArticleCard.vue';
 import { Input } from '@/components/ui/input';
-import type { MiningArticle, PaginatedMiningArticles } from '@/types';
+import type { PaginatedMiningArticles } from '@/types';
 
 interface Props {
   articles: PaginatedMiningArticles;

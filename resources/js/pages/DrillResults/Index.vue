@@ -2,7 +2,7 @@
 import { Head, Link } from '@inertiajs/vue3';
 import { router } from '@inertiajs/vue3';
 import DrillResultCard from '@/components/DrillResultCard.vue';
-import type { DrillResult, PaginatedDrillResults } from '@/types';
+import type { PaginatedDrillResults } from '@/types';
 
 interface Props {
   drillResults: PaginatedDrillResults;
@@ -10,7 +10,7 @@ interface Props {
   filters: { commodity?: string };
 }
 
-const props = defineProps<Props>();
+defineProps<Props>();
 
 const setCommodityFilter = (slug: string | null) => {
   router.get('/drill-results', { commodity: slug || undefined }, { preserveState: true });
