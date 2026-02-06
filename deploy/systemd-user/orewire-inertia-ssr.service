@@ -10,5 +10,12 @@ ExecStart=/bin/bash -lc 'source ~/.nvm/nvm.sh 2>/dev/null; exec /usr/bin/php art
 Restart=always
 RestartSec=3
 
+TimeoutStopSec=30
+KillMode=mixed
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+
 [Install]
 WantedBy=default.target

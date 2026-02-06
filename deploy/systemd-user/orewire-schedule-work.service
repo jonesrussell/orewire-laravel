@@ -10,5 +10,13 @@ ExecStart=/usr/bin/php artisan schedule:work
 Restart=always
 RestartSec=3
 
+# Allow current scheduled job to finish on SIGTERM
+TimeoutStopSec=120
+KillMode=mixed
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+
 [Install]
 WantedBy=default.target

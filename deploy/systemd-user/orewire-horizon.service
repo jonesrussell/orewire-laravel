@@ -10,5 +10,13 @@ ExecStart=/usr/bin/php artisan horizon
 Restart=always
 RestartSec=3
 
+# Horizon needs time to drain workers on SIGTERM
+TimeoutStopSec=90
+KillMode=mixed
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+
 [Install]
 WantedBy=default.target
