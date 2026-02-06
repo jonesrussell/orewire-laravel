@@ -80,6 +80,7 @@ class ConsumeMiningArticles extends Command
                     if ($this->shouldStop) {
                         break;
                     }
+
                     // Normal timeout, reconnect immediately
                     continue;
                 }
