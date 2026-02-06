@@ -180,7 +180,9 @@ return [
 
         // North Cloud Redis connection for mining article ingestion
         // Used by: php artisan mining:consume
+        // Prefix disabled: pub/sub channels are shared across services
         'northcloud' => [
+            'prefix' => '',
             'url' => env('NORTHCLOUD_REDIS_URL'),
             'host' => env('NORTHCLOUD_REDIS_HOST', '127.0.0.1'),
             'username' => env('NORTHCLOUD_REDIS_USERNAME'),
