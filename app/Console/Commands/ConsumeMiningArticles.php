@@ -29,7 +29,7 @@ class ConsumeMiningArticles extends Command
      * @var string
      */
     protected $signature = 'mining:consume
-        {--verbose : Show detailed output for each article}
+        {--detailed : Show detailed output for each article}
         {--channel=articles:mining : Redis channel to subscribe to}
         {--connection=northcloud : Redis connection name from config/database.php}';
 
@@ -150,12 +150,12 @@ class ConsumeMiningArticles extends Command
 
             if ($status === 'created') {
                 $this->processedCount++;
-                if ($this->option('verbose')) {
+                if ($this->option('detailed')) {
                     $this->info("[+] Created: {$title}");
                 }
             } else {
                 $this->updatedCount++;
-                if ($this->option('verbose')) {
+                if ($this->option('detailed')) {
                     $this->line("[~] Updated: {$title}");
                 }
             }
