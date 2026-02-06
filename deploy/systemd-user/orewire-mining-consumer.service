@@ -1,0 +1,26 @@
+[Unit]
+Description=Orewire Mining Article Consumer (North Cloud Redis)
+After=network.target
+ConditionPathExists=/home/deployer/orewire-laravel/current
+
+[Service]
+Type=simple
+WorkingDirectory=/home/deployer/orewire-laravel/current
+ExecStart=/usr/bin/php artisan mining:consume
+Restart=always
+RestartSec=5
+
+# Graceful shutdown: the read_timeout (30s) in Redis config allows
+# the command to check for SIGTERM. Allow up to 35s for clean exit.
+TimeoutStopSec=35
+KillMode=mixed
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+
+# Environment (Laravel loads .env, but explicit APP_ENV ensures proper config)
+Environment="APP_ENV=production"
+
+[Install]
+WantedBy=default.target
