@@ -6,7 +6,7 @@ ConditionPathExists=/home/deployer/orewire-laravel/current
 [Service]
 Type=simple
 WorkingDirectory=/home/deployer/orewire-laravel/current
-ExecStart=/usr/bin/php artisan mining:consume
+ExecStart=/usr/bin/php artisan articles:subscribe
 Restart=always
 RestartSec=5
 

@@ -4,23 +4,27 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreMiningArticleRequest;
-use App\Services\MiningIngestService;
 use Illuminate\Http\JsonResponse;
+use JonesRussell\NorthCloud\Processing\ProcessorPipeline;
 
 class MiningIngestController extends Controller
 {
     public function __construct(
-        private MiningIngestService $ingestService
+        private ProcessorPipeline $pipeline
     ) {}
 
     public function store(StoreMiningArticleRequest $request): JsonResponse
     {
-        $result = $this->ingestService->handle($request->validated());
+        $article = $this->pipeline->run($request->validated());
+
+        if (! $article) {
+            return response()->json(['error' => 'Article not processed'], 422);
+        }
 
         return response()->json([
-            'id' => $result['mining_article']->id,
-            'slug' => $result['mining_article']->slug,
-            'status' => $result['status'],
+            'id' => $article->id,
+            'slug' => $article->slug,
+            'status' => $article->wasRecentlyCreated ? 'created' : 'updated',
         ]);
     }
 }

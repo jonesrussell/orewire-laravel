@@ -3,13 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
+use JonesRussell\NorthCloud\Models\Article;
 
 /**
  * Mining article from the north-cloud pipeline.
@@ -18,22 +16,22 @@ use Illuminate\Support\Facades\DB;
  *                                content_type, publisher (route_id, channel, published_at), word_count, keywords.
  *                                No ad-hoc dumping. Promote frequently queried fields to columns.
  */
-class MiningArticle extends Model
+class MiningArticle extends Article
 {
-    /** @use HasFactory<\Database\Factories\MiningArticleFactory> */
-    use HasFactory, SoftDeletes;
+    protected $table = 'mining_articles';
 
     protected $fillable = [
         'news_source_id',
         'mining_jurisdiction_id',
         'title',
+        'slug',
         'excerpt',
         'content',
         'url',
         'external_id',
-        'slug',
         'image_url',
         'author',
+        'status',
         'published_at',
         'crawled_at',
         'metadata',
@@ -44,18 +42,16 @@ class MiningArticle extends Model
 
     protected function casts(): array
     {
-        return [
-            'published_at' => 'datetime',
-            'crawled_at' => 'datetime',
+        return array_merge(parent::casts(), [
             'updated_via_ingest_at' => 'datetime',
-            'metadata' => 'array',
-            'is_featured' => 'boolean',
-        ];
+        ]);
     }
 
-    public function newsSource(): BelongsTo
+    public function tags(): BelongsToMany
     {
-        return $this->belongsTo(NewsSource::class);
+        return $this->belongsToMany(Tag::class, 'article_tag', 'article_id', 'tag_id')
+            ->withPivot('confidence')
+            ->withTimestamps();
     }
 
     public function miningJurisdiction(): BelongsTo
@@ -86,9 +82,9 @@ class MiningArticle extends Model
         return $this->hasMany(DrillResult::class);
     }
 
-    public function scopeForDisplay(Builder $query): void
+    public function scopeForDisplay(Builder $query): Builder
     {
-        $query->with([
+        return $query->with([
             'newsSource',
             'miningJurisdiction',
             'commodities',
@@ -98,63 +94,59 @@ class MiningArticle extends Model
         ]);
     }
 
-    public function scopePublished(Builder $query): void
+    public function scopePublished(Builder $query): Builder
     {
-        $query->where(function (Builder $q) {
+        return $query->where(function (Builder $q) {
             $q->whereNull('published_at')
                 ->orWhere('published_at', '<=', now());
         })->orderByDesc('published_at');
     }
 
-    public function scopeFeatured(Builder $query): void
+    public function scopeFeatured(Builder $query): Builder
     {
-        $query->where('is_featured', true);
+        return $query->where('is_featured', true);
     }
 
-    public function scopeWithCommodity(Builder $query, string $slug): void
+    public function scopeWithCommodity(Builder $query, string $slug): Builder
     {
-        $query->whereHas('commodities', function (Builder $q) use ($slug) {
+        return $query->whereHas('commodities', function (Builder $q) use ($slug) {
             $q->where('slug', $slug);
         });
     }
 
-    public function scopeWithCompany(Builder $query, string $slug): void
+    public function scopeWithCompany(Builder $query, string $slug): Builder
     {
-        $query->whereHas('companies', function (Builder $q) use ($slug) {
+        return $query->whereHas('companies', function (Builder $q) use ($slug) {
             $q->where('slug', $slug);
         });
     }
 
-    public function scopeWithCategory(Builder $query, string $slug): void
+    public function scopeWithCategory(Builder $query, string $slug): Builder
     {
-        $query->whereHas('miningCategories', function (Builder $q) use ($slug) {
+        return $query->whereHas('miningCategories', function (Builder $q) use ($slug) {
             $q->where('slug', $slug);
         });
     }
 
-    public function scopeWithJurisdiction(Builder $query, string $slug): void
+    public function scopeWithJurisdiction(Builder $query, string $slug): Builder
     {
-        $query->whereHas('miningJurisdiction', function (Builder $q) use ($slug) {
+        return $query->whereHas('miningJurisdiction', function (Builder $q) use ($slug) {
             $q->where('slug', $slug);
         });
     }
 
-    public function scopeSearch(Builder $query, string $searchTerm): void
+    public function scopeSearch(Builder $query, string $term): Builder
     {
         if (DB::getDriverName() === 'sqlite') {
-            $term = '%'.$searchTerm.'%';
-            $query->where(function (Builder $q) use ($term) {
-                $q->where('title', 'like', $term)
-                    ->orWhere('excerpt', 'like', $term)
-                    ->orWhere('content', 'like', $term);
-            });
-        } else {
-            $query->whereFullText(['title', 'excerpt', 'content'], $searchTerm);
-        }
-    }
+            $escaped = '%'.$term.'%';
 
-    public function incrementViewCount(): void
-    {
-        $this->increment('view_count');
+            return $query->where(function (Builder $q) use ($escaped) {
+                $q->where('title', 'like', $escaped)
+                    ->orWhere('excerpt', 'like', $escaped)
+                    ->orWhere('content', 'like', $escaped);
+            });
+        }
+
+        return $query->whereFullText(['title', 'excerpt', 'content'], $term);
     }
 }

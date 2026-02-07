@@ -179,7 +179,7 @@ return [
         ],
 
         // North Cloud Redis connection for mining article ingestion
-        // Used by: php artisan mining:consume
+        // Used by: php artisan articles:subscribe
         // Prefix disabled: pub/sub channels are shared across services
         'northcloud' => [
             'prefix' => '',
