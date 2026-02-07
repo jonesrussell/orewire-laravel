@@ -36,3 +36,7 @@ task('deploy:stop_inertia_ssr', function (): void {
     run('cd {{release_path}} && {{bin/php}} artisan inertia:stop-ssr', ['allow_failure' => true]);
 });
 after('deploy:migrate', 'deploy:stop_inertia_ssr');
+task('deploy:reload_php_fpm', function (): void {
+    run('sudo systemctl restart php8.4-fpm', ['allow_failure' => true]);
+});
+after('deploy:stop_inertia_ssr', 'deploy:reload_php_fpm');
