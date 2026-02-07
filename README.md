@@ -1,4 +1,4 @@
-# Drillfeed
+# OreWire
 
 Mining news and drill results ingestion site. Ingests normalized mining articles from the north-cloud pipeline via HTTP API and displays them with commodity, company, and jurisdiction filters.
 
@@ -23,13 +23,13 @@ ddev artisan db:seed
 
 ## Ingestion API
 
-Articles are ingested via HTTP POST from north-cloud. Configure `DRILLFEED_INGEST_TOKEN` in `.env`.
+Articles are ingested via HTTP POST from north-cloud. Configure `OREWIRE_INGEST_TOKEN` in `.env`.
 
 ### Endpoint
 
 ```
 POST /api/ingest/mining-article
-Authorization: Bearer {DRILLFEED_INGEST_TOKEN}
+Authorization: Bearer {OREWIRE_INGEST_TOKEN}
 Content-Type: application/json
 ```
 
@@ -110,8 +110,8 @@ systemctl --user enable orewire-inertia-ssr orewire-horizon orewire-schedule-wor
 systemctl --user start orewire-inertia-ssr orewire-horizon orewire-schedule-work
 ```
 
-5. Set `DRILLFEED_INGEST_TOKEN` and other env vars in production `.env`
+5. Set `OREWIRE_INGEST_TOKEN` and other env vars in production `.env`
 
 ### Auth note
 
-The single shared `DRILLFEED_INGEST_TOKEN` is suitable for MVP. For production at scale, consider per-source tokens or Laravel Sanctum API tokens.
+The single shared `OREWIRE_INGEST_TOKEN` is suitable for MVP. For production at scale, consider per-source tokens or Laravel Sanctum API tokens.

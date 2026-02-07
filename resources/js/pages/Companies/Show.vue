@@ -12,7 +12,7 @@ defineProps<Props>();
 </script>
 
 <template>
-  <Head :title="`${company.name} - Drillfeed`" />
+  <Head :title="`${company.name} - OreWire`" />
 
   <div class="min-h-screen bg-zinc-900 dark:bg-zinc-950">
     <header class="border-b border-zinc-800 bg-zinc-950 dark:border-zinc-950">

@@ -32,14 +32,14 @@ const performSearch = () => {
 </script>
 
 <template>
-  <Head title="Mining Articles - Drillfeed" />
+  <Head title="Mining Articles - OreWire" />
 
   <div class="min-h-screen bg-zinc-900 dark:bg-zinc-950">
     <header class="sticky top-0 z-50 border-b border-zinc-800 bg-zinc-950 dark:border-zinc-950">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="flex h-16 items-center justify-between">
           <Link href="/" class="flex shrink-0 items-center gap-2 text-xl font-semibold text-zinc-100">
-            Drillfeed
+            OreWire
           </Link>
 
           <nav class="hidden items-center gap-6 md:flex">

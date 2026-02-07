@@ -11,7 +11,7 @@ beforeEach(function () {
 });
 
 it('creates article from valid payload', function () {
-    config(['drillfeed.ingest_token' => 'test-token']);
+    config(['orewire.ingest_token' => 'test-token']);
 
     $payload = [
         'id' => 'es-doc-123',
@@ -49,7 +49,7 @@ it('creates article from valid payload', function () {
 });
 
 it('returns 401 without valid token', function () {
-    config(['drillfeed.ingest_token' => 'secret']);
+    config(['orewire.ingest_token' => 'secret']);
 
     $response = $this->postJson('/api/ingest/mining-article', [
         'id' => 'es-doc-1',
@@ -62,7 +62,7 @@ it('returns 401 without valid token', function () {
 });
 
 it('returns 401 without authorization header', function () {
-    config(['drillfeed.ingest_token' => 'secret']);
+    config(['orewire.ingest_token' => 'secret']);
 
     $response = $this->postJson('/api/ingest/mining-article', [
         'id' => 'es-doc-1',
@@ -73,7 +73,7 @@ it('returns 401 without authorization header', function () {
 });
 
 it('validates required id and title', function () {
-    config(['drillfeed.ingest_token' => 'test-token']);
+    config(['orewire.ingest_token' => 'test-token']);
 
     $response = $this->postJson('/api/ingest/mining-article', [], [
         'Authorization' => 'Bearer test-token',
@@ -84,7 +84,7 @@ it('validates required id and title', function () {
 });
 
 it('updates existing article on re-ingestion', function () {
-    config(['drillfeed.ingest_token' => 'test-token']);
+    config(['orewire.ingest_token' => 'test-token']);
 
     $source = NewsSource::create([
         'name' => 'Mining News',

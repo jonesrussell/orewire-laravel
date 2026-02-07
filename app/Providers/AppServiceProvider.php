@@ -32,8 +32,8 @@ class AppServiceProvider extends ServiceProvider
 
     protected function configureRateLimiting(): void
     {
-        RateLimiter::for('drillfeed', function (Request $request) {
-            return Limit::perMinute(config('drillfeed.api_rate_limit', 60));
+        RateLimiter::for('orewire', function (Request $request) {
+            return Limit::perMinute(config('orewire.api_rate_limit', 60));
         });
     }
 

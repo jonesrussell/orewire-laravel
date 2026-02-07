@@ -16,7 +16,7 @@ class MiningArticlePageController extends Controller
 {
     public function home(): Response
     {
-        $cacheKey = 'drillfeed:homepage';
+        $cacheKey = 'orewire:homepage';
         $cacheTtl = 300;
 
         $data = Cache::remember($cacheKey, $cacheTtl, function () {

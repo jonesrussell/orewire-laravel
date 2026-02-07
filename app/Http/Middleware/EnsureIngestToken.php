@@ -10,7 +10,7 @@ class EnsureIngestToken
 {
     public function handle(Request $request, Closure $next): Response
     {
-        $token = config('drillfeed.ingest_token');
+        $token = config('orewire.ingest_token');
 
         if (empty($token)) {
             return response()->json(['error' => 'Ingest not configured'], 503);

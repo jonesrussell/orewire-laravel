@@ -8,7 +8,7 @@ use App\Http\Controllers\Api\MiningIngestController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/ingest/mining-article', [MiningIngestController::class, 'store'])
-    ->middleware(['auth.ingest', 'throttle:drillfeed']);
+    ->middleware(['auth.ingest', 'throttle:orewire']);
 
 Route::get('/articles', [ApiMiningArticleController::class, 'index']);
 Route::get('/articles/{miningArticle}', [ApiMiningArticleController::class, 'show']);

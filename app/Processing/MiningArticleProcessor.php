@@ -119,16 +119,16 @@ class MiningArticleProcessor implements ArticleProcessor
     {
         try {
             if (config('cache.default') !== 'array') {
-                Cache::tags(['drillfeed:homepage', 'drillfeed:commodities', 'drillfeed:companies'])->flush();
+                Cache::tags(['orewire:homepage', 'orewire:commodities', 'orewire:companies'])->flush();
             } else {
-                Cache::forget('drillfeed:homepage');
-                Cache::forget('drillfeed:commodities');
-                Cache::forget('drillfeed:companies');
+                Cache::forget('orewire:homepage');
+                Cache::forget('orewire:commodities');
+                Cache::forget('orewire:companies');
             }
         } catch (\Throwable) {
-            Cache::forget('drillfeed:homepage');
-            Cache::forget('drillfeed:commodities');
-            Cache::forget('drillfeed:companies');
+            Cache::forget('orewire:homepage');
+            Cache::forget('orewire:commodities');
+            Cache::forget('orewire:companies');
         }
     }
 }
