@@ -38,4 +38,9 @@ return [
         'auto_create' => true,
         'allowed' => [],
     ],
+
+    'admin' => [
+        'resource' => \App\Admin\MiningArticleResource::class,
+        'controller' => \App\Http\Controllers\Admin\MiningArticleController::class,
+    ],
 ];

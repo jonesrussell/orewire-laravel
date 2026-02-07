@@ -17,7 +17,7 @@ Route::get('/companies/{company:slug}', [CompanyPageController::class, 'show'])-
 Route::get('/drill-results', [DrillResultPageController::class, 'index'])->name('drill-results.index');
 
 Route::get('dashboard', function () {
-    return Inertia::render('Dashboard');
+    return redirect()->route('dashboard.articles.index');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 require __DIR__.'/settings.php';

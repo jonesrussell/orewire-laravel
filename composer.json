@@ -10,8 +10,11 @@
     "license": "MIT",
     "repositories": [
         {
-            "type": "vcs",
-            "url": "git@github-northcloud:jonesrussell/northcloud-laravel.git"
+            "type": "path",
+            "url": "../northcloud-laravel",
+            "options": {
+                "symlink": true
+            }
         }
     ],
     "require": {

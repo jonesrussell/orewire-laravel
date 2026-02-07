@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7ab9e486f24d5e91d5756f814afe3d7f",
+    "content-hash": "6766fd61e2c421dae8df72e6196c7254",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -1230,9 +1230,9 @@
         {
             "name": "jonesrussell/northcloud-laravel",
             "version": "dev-main",
-            "source": {
-                "type": "git",
-                "url": "git@github-northcloud:jonesrussell/northcloud-laravel.git",
+            "dist": {
+                "type": "path",
+                "url": "../northcloud-laravel",
                 "reference": "1e2cb5f83206bd3f322fd552293bc185a6595ae5"
             },
             "require": {
@@ -1251,7 +1251,6 @@
                 "pestphp/pest": "^4.0",
                 "pestphp/pest-plugin-laravel": "^4.0"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "laravel": {
@@ -1275,7 +1274,10 @@
                 "MIT"
             ],
             "description": "Shared article ingestion pipeline for North Cloud-connected Laravel sites",
-            "time": "2026-02-07T16:03:57+00:00"
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
         },
         {
             "name": "laravel/fortify",
