@@ -11,7 +11,7 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/jonesrussell/northcloud-laravel.git"
+            "url": "git@github-northcloud:jonesrussell/northcloud-laravel.git"
         }
     ],
     "require": {
