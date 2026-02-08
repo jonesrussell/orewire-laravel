@@ -13,16 +13,18 @@ defineProps<Props>();
 <template>
   <Link
     :href="`/companies/${company.slug}`"
-    class="block rounded-lg border border-zinc-700 bg-zinc-800/50 p-4 transition-all hover:bg-zinc-800 dark:border-zinc-700 dark:bg-zinc-800/50"
+    class="group flex items-center justify-between border-b border-ore-line-faint py-2 transition-colors last:border-0 hover:bg-ore-surface/50"
   >
-    <div class="font-medium text-zinc-200 dark:text-zinc-200">
-      {{ company.name }}
+    <div class="min-w-0">
+      <span class="text-sm font-medium text-ore-bright transition-colors group-hover:text-ore-copper-light">
+        {{ company.name }}
+      </span>
+      <span v-if="company.symbol" class="ml-2 text-xs text-ore-dim">
+        {{ company.symbol }}
+      </span>
     </div>
-    <div v-if="company.symbol" class="text-xs text-zinc-500 dark:text-zinc-500">
-      {{ company.symbol }}
-    </div>
-    <div v-if="articleCount !== undefined" class="mt-2 text-xs text-zinc-400">
-      {{ articleCount }} article{{ articleCount !== 1 ? 's' : '' }}
-    </div>
+    <span v-if="articleCount !== undefined" class="ml-3 shrink-0 text-xs tabular-nums text-ore-dim">
+      {{ articleCount }}
+    </span>
   </Link>
 </template>

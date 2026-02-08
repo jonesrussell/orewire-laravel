@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
+import { ArrowLeft } from 'lucide-vue-next';
 import MiningArticleCard from '@/components/MiningArticleCard.vue';
+import SiteFooter from '@/components/SiteFooter.vue';
+import SiteHeader from '@/components/SiteHeader.vue';
 import type { Company, PaginatedMiningArticles } from '@/types';
 
 interface Props {
@@ -12,27 +15,29 @@ defineProps<Props>();
 </script>
 
 <template>
-  <Head :title="`${company.name} - OreWire`" />
+  <Head :title="`${company.name} — OreWire`" />
 
-  <div class="min-h-screen bg-zinc-900 dark:bg-zinc-950">
-    <header class="border-b border-zinc-800 bg-zinc-950 dark:border-zinc-950">
-      <div class="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
-        <Link href="/articles" class="text-sm text-zinc-400 hover:text-white">
-          ← Back to Articles
-        </Link>
-      </div>
-    </header>
+  <div class="min-h-screen bg-ore-deep">
+    <SiteHeader />
 
-    <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-      <h1 class="mb-2 text-3xl font-bold text-zinc-100">
+    <main class="mx-auto max-w-[1400px] px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
+      <Link
+        href="/articles"
+        class="mb-6 inline-flex items-center gap-1.5 text-sm text-ore-mid transition-colors hover:text-ore-copper"
+      >
+        <ArrowLeft class="size-3.5" />
+        Back to Articles
+      </Link>
+
+      <h1 class="mb-1 font-serif text-3xl font-bold text-ore-bright sm:text-4xl">
         {{ company.name }}
       </h1>
-      <p v-if="company.symbol" class="mb-8 text-zinc-500">
+      <p v-if="company.symbol" class="mb-8 text-sm text-ore-dim">
         {{ company.symbol }}
       </p>
 
-      <h2 class="mb-4 text-xl font-semibold text-zinc-100">Articles</h2>
-      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <h2 class="section-label mb-5">Articles</h2>
+      <div class="grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
         <MiningArticleCard
           v-for="article in articles.data"
           :key="article.id"
@@ -40,21 +45,25 @@ defineProps<Props>();
         />
       </div>
 
-      <div v-if="articles.last_page > 1" class="mt-8 flex justify-center gap-2">
+      <div v-if="articles.last_page > 1" class="mt-10 flex justify-center gap-1">
         <Link
           v-for="link in articles.links.filter(l => l.url)"
           :key="link.label"
           :href="link.url!"
-          class="rounded px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800 hover:text-white"
-          :class="{ 'bg-zinc-700 text-white': link.active }"
+          class="rounded px-3.5 py-2 text-sm font-medium transition-colors"
+          :class="link.active
+            ? 'bg-ore-copper text-ore-deep'
+            : 'text-ore-mid hover:bg-ore-raised hover:text-ore-bright'"
         >
-          {{ link.label.replace('&laquo;', '‹').replace('&raquo;', '›') }}
+          {{ link.label.replace('&laquo;', '\u2039').replace('&raquo;', '\u203A') }}
         </Link>
       </div>
 
-      <p v-if="articles.data.length === 0" class="py-12 text-zinc-500">
+      <p v-if="articles.data.length === 0" class="py-16 text-center text-ore-dim">
         No articles for this company.
       </p>
     </main>
+
+    <SiteFooter />
   </div>
 </template>

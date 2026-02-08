@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
-import { router } from '@inertiajs/vue3';
+import CommodityFilter from '@/components/CommodityFilter.vue';
 import DrillResultCard from '@/components/DrillResultCard.vue';
+import SiteFooter from '@/components/SiteFooter.vue';
+import SiteHeader from '@/components/SiteHeader.vue';
 import type { PaginatedDrillResults } from '@/types';
 
 interface Props {
@@ -11,58 +13,41 @@ interface Props {
 }
 
 defineProps<Props>();
-
-const setCommodityFilter = (slug: string | null) => {
-  router.get('/drill-results', { commodity: slug || undefined }, { preserveState: true });
-};
 </script>
 
 <template>
-  <Head title="Drill Results - OreWire" />
+  <Head title="Drill Results — OreWire" />
 
-  <div class="min-h-screen bg-zinc-900 dark:bg-zinc-950">
-    <header class="sticky top-0 z-50 border-b border-zinc-800 bg-zinc-950 dark:border-zinc-950">
-      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="flex h-16 items-center justify-between">
-          <Link href="/" class="flex shrink-0 items-center gap-2 text-xl font-semibold text-zinc-100">
-            OreWire
-          </Link>
+  <div class="min-h-screen bg-ore-deep">
+    <SiteHeader />
 
-          <nav class="flex items-center gap-6">
-            <Link href="/" class="text-sm text-zinc-300 hover:text-white">Home</Link>
-            <Link href="/articles" class="text-sm text-zinc-300 hover:text-white">Articles</Link>
-            <Link href="/drill-results" class="text-sm font-medium text-amber-500">Drill Results</Link>
-          </nav>
-        </div>
-      </div>
-    </header>
+    <main class="mx-auto max-w-[1400px] px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
+      <h1 class="mb-6 font-serif text-3xl font-bold text-ore-bright sm:text-4xl">
+        Drill Results
+      </h1>
 
-    <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-      <h1 class="mb-6 text-3xl font-bold text-zinc-100">Drill Results</h1>
-
-      <div v-if="commodities?.length" class="mb-6 flex flex-wrap gap-2">
-        <span class="text-sm text-zinc-500">Commodity:</span>
-        <button
-          type="button"
-          class="rounded px-3 py-1 text-sm transition-colors"
-          :class="!filters.commodity ? 'bg-amber-600 text-white' : 'bg-zinc-700 text-zinc-300 hover:bg-zinc-600'"
-          @click="setCommodityFilter(null)"
-        >
-          All
-        </button>
-        <button
-          v-for="c in commodities"
-          :key="c.id"
-          type="button"
-          class="rounded px-3 py-1 text-sm transition-colors"
-          :class="filters.commodity === c.slug ? 'bg-amber-600 text-white' : 'bg-zinc-700 text-zinc-300 hover:bg-zinc-600'"
-          @click="setCommodityFilter(c.slug)"
-        >
-          {{ c.name }}
-        </button>
+      <div v-if="commodities?.length" class="mb-8">
+        <CommodityFilter
+          :commodities="commodities"
+          :current="filters.commodity"
+          :filters="filters"
+          base-url="/drill-results"
+        />
       </div>
 
-      <div class="space-y-4">
+      <!-- Data table header -->
+      <div
+        v-if="drillResults.data.length"
+        class="mb-1 hidden items-center gap-4 border-b border-ore-line px-3 pb-2 text-[10px] font-semibold uppercase tracking-wider text-ore-dim md:flex"
+      >
+        <span class="w-14">Comm.</span>
+        <span class="w-24 text-right">Grade</span>
+        <span class="w-16 text-right">Length</span>
+        <span class="w-24">Hole ID</span>
+        <span class="flex-1">Article</span>
+      </div>
+
+      <div class="rounded border border-ore-line bg-ore-surface/50 p-3">
         <DrillResultCard
           v-for="drill in drillResults.data"
           :key="drill.id"
@@ -70,21 +55,25 @@ const setCommodityFilter = (slug: string | null) => {
         />
       </div>
 
-      <div v-if="drillResults.last_page > 1" class="mt-8 flex justify-center gap-2">
+      <div v-if="drillResults.last_page > 1" class="mt-10 flex justify-center gap-1">
         <Link
           v-for="link in drillResults.links.filter(l => l.url)"
           :key="link.label"
           :href="link.url!"
-          class="rounded px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800 hover:text-white"
-          :class="{ 'bg-zinc-700 text-white': link.active }"
+          class="rounded px-3.5 py-2 text-sm font-medium transition-colors"
+          :class="link.active
+            ? 'bg-ore-copper text-ore-deep'
+            : 'text-ore-mid hover:bg-ore-raised hover:text-ore-bright'"
         >
-          {{ link.label.replace('&laquo;', '‹').replace('&raquo;', '›') }}
+          {{ link.label.replace('&laquo;', '\u2039').replace('&raquo;', '\u203A') }}
         </Link>
       </div>
 
-      <p v-if="drillResults.data.length === 0" class="py-12 text-zinc-500">
+      <p v-if="drillResults.data.length === 0" class="py-16 text-center text-ore-dim">
         No drill results found.
       </p>
     </main>
+
+    <SiteFooter />
   </div>
 </template>

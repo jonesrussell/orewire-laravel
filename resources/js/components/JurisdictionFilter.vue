@@ -20,12 +20,14 @@ const setFilter = (slug: string | null) => {
 </script>
 
 <template>
-  <div class="flex flex-wrap items-center gap-2">
-    <span class="text-sm text-zinc-500">Jurisdiction:</span>
+  <div class="flex flex-wrap items-center gap-1.5">
+    <span class="mr-1 text-[11px] font-medium uppercase tracking-wider text-ore-dim">Region</span>
     <button
       type="button"
-      class="rounded px-3 py-1 text-sm transition-colors"
-      :class="!current ? 'bg-amber-600 text-white' : 'bg-zinc-700 text-zinc-300 hover:bg-zinc-600'"
+      class="rounded px-2.5 py-1 text-xs font-medium transition-colors"
+      :class="!current
+        ? 'bg-ore-copper text-ore-deep'
+        : 'bg-ore-raised text-ore-mid hover:bg-ore-hover hover:text-ore-bright'"
       @click="setFilter(null)"
     >
       All
@@ -34,8 +36,10 @@ const setFilter = (slug: string | null) => {
       v-for="j in jurisdictions"
       :key="j.id"
       type="button"
-      class="rounded px-3 py-1 text-sm transition-colors"
-      :class="current === j.slug ? 'bg-amber-600 text-white' : 'bg-zinc-700 text-zinc-300 hover:bg-zinc-600'"
+      class="rounded px-2.5 py-1 text-xs font-medium transition-colors"
+      :class="current === j.slug
+        ? 'bg-ore-copper text-ore-deep'
+        : 'bg-ore-raised text-ore-mid hover:bg-ore-hover hover:text-ore-bright'"
       @click="setFilter(j.slug)"
     >
       {{ j.name }}

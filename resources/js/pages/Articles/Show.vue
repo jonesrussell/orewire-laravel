@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
-import { Calendar, User, ExternalLink } from 'lucide-vue-next';
+import { Calendar, User, ExternalLink, ArrowLeft } from 'lucide-vue-next';
 import MiningArticleCard from '@/components/MiningArticleCard.vue';
-import { Badge } from '@/components/ui/badge';
+import SiteFooter from '@/components/SiteFooter.vue';
+import SiteHeader from '@/components/SiteHeader.vue';
 import type { MiningArticle } from '@/types';
 
 interface Props {
@@ -22,116 +23,113 @@ const formattedDate = props.article.published_at
 </script>
 
 <template>
-  <Head :title="article.title" />
+  <Head :title="`${article.title} — OreWire`" />
 
-  <div class="min-h-screen bg-zinc-900 dark:bg-zinc-950">
-    <header class="border-b border-zinc-800 bg-zinc-950 dark:border-zinc-800 dark:bg-zinc-950">
-      <div class="mx-auto max-w-4xl px-4 py-4 sm:px-6 lg:px-8">
-        <Link
-          href="/articles"
-          class="text-sm text-zinc-400 hover:text-white"
-        >
-          ← Back to Articles
-        </Link>
-      </div>
-    </header>
+  <div class="min-h-screen bg-ore-deep">
+    <SiteHeader />
 
-    <main class="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
+    <main class="mx-auto max-w-3xl px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
+      <Link
+        href="/articles"
+        class="mb-6 inline-flex items-center gap-1.5 text-sm text-ore-mid transition-colors hover:text-ore-copper"
+      >
+        <ArrowLeft class="size-3.5" />
+        Back to Articles
+      </Link>
+
       <article>
         <header class="mb-8">
-          <h1 class="mb-4 text-4xl font-bold text-zinc-100 dark:text-zinc-100">
+          <div class="mb-3 flex flex-wrap items-center gap-3 text-[11px] uppercase tracking-wider">
+            <span v-if="article.news_source" class="font-medium text-ore-copper">
+              {{ article.news_source.name }}
+            </span>
+            <div class="flex items-center gap-1.5 text-ore-dim">
+              <Calendar class="size-3" />
+              {{ formattedDate }}
+            </div>
+            <div v-if="article.author" class="flex items-center gap-1.5 text-ore-dim">
+              <User class="size-3" />
+              {{ article.author }}
+            </div>
+          </div>
+
+          <h1 class="font-serif text-3xl font-bold leading-tight text-ore-bright sm:text-4xl lg:text-[2.75rem]">
             {{ article.title }}
           </h1>
 
-          <div class="flex flex-wrap items-center gap-4 text-sm text-zinc-400">
-            <div class="flex items-center gap-2">
-              <Calendar class="size-4" />
-              {{ formattedDate }}
-            </div>
-
-            <div v-if="article.author" class="flex items-center gap-2">
-              <User class="size-4" />
-              {{ article.author }}
-            </div>
-
-            <div v-if="article.news_source" class="flex items-center gap-2">
-              <span>{{ article.news_source.name }}</span>
-            </div>
-
-            <a
-              v-if="article.url"
-              :href="article.url"
-              target="_blank"
-              rel="noopener"
-              class="flex items-center gap-1 text-amber-500 hover:text-amber-400"
-            >
-              <ExternalLink class="size-4" />
-              Original
-            </a>
-          </div>
-
           <div
             v-if="article.commodities?.length || article.companies?.length || article.mining_categories?.length"
-            class="mt-4 flex flex-wrap gap-2"
+            class="mt-5 flex flex-wrap gap-1.5"
           >
-            <Badge
+            <span
               v-for="c in article.commodities"
               :key="'c-'+c.id"
-              variant="secondary"
-              class="bg-zinc-700 text-zinc-300"
+              class="rounded bg-ore-raised px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-wider text-ore-mid"
             >
               {{ c.name }}
-            </Badge>
-            <Badge
+            </span>
+            <span
               v-for="co in article.companies"
               :key="'co-'+co.id"
-              variant="secondary"
-              class="bg-zinc-700 text-zinc-300"
+              class="rounded bg-ore-raised px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-wider text-ore-mid"
             >
               {{ co.name }}
-            </Badge>
-            <Badge
+            </span>
+            <span
               v-for="cat in article.mining_categories"
               :key="'cat-'+cat.id"
-              variant="secondary"
-              class="bg-zinc-700 text-zinc-300"
+              class="rounded bg-ore-raised px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-wider text-ore-mid"
             >
               {{ cat.name }}
-            </Badge>
+            </span>
           </div>
+
+          <a
+            v-if="article.url"
+            :href="article.url"
+            target="_blank"
+            rel="noopener"
+            class="mt-4 inline-flex items-center gap-1.5 text-sm text-ore-copper transition-colors hover:text-ore-copper-light"
+          >
+            <ExternalLink class="size-3.5" />
+            Read original
+          </a>
         </header>
 
+        <!-- Drill results -->
         <div
           v-if="article.drill_results?.length"
-          class="mb-8 rounded-lg border border-zinc-700 bg-zinc-800/50 p-4 dark:border-zinc-700 dark:bg-zinc-800/50"
+          class="mb-8 rounded border border-ore-line bg-ore-surface/50 p-4"
         >
-          <h2 class="mb-3 text-lg font-semibold text-zinc-100">Drill Results</h2>
-          <div class="space-y-2">
+          <h2 class="section-label mb-3">Drill Results</h2>
+          <div class="space-y-1">
             <div
               v-for="drill in article.drill_results"
               :key="drill.id"
-              class="flex justify-between rounded bg-zinc-800/80 px-3 py-2 text-sm"
+              class="flex items-center justify-between rounded px-3 py-2 text-sm odd:bg-ore-raised/50"
             >
-              <span class="text-zinc-300">
+              <span class="text-ore-mid">
                 {{ drill.commodity?.name || 'N/A' }}
-                <span v-if="drill.hole_id" class="text-zinc-500"> ({{ drill.hole_id }})</span>
+                <span v-if="drill.hole_id" class="ml-1 text-ore-dim">({{ drill.hole_id }})</span>
               </span>
-              <span class="font-medium text-amber-400">
+              <span class="font-mono font-semibold tabular-nums text-ore-gold">
                 {{ drill.grade }} {{ drill.unit || 'g/t' }}
-                <span v-if="drill.intercept_m"> · {{ drill.intercept_m }}m</span>
+                <span v-if="drill.intercept_m" class="ml-1 text-ore-dim">/ {{ drill.intercept_m }}m</span>
               </span>
             </div>
           </div>
         </div>
 
+        <!-- Article body -->
         <div
-          class="prose prose-invert max-w-none dark:prose-invert"
+          class="prose-ore max-w-none"
           v-html="article.content || article.excerpt || ''"
         />
 
-        <section v-if="relatedArticles.length" class="mt-12">
-          <h2 class="mb-4 text-xl font-semibold text-zinc-100">Related Articles</h2>
-          <div class="grid gap-4 sm:grid-cols-2">
+        <!-- Related articles -->
+        <section v-if="relatedArticles.length" class="mt-14">
+          <h2 class="section-label mb-5">Related Articles</h2>
+          <div class="grid gap-x-6 gap-y-6 sm:grid-cols-2">
             <MiningArticleCard
               v-for="rel in relatedArticles"
               :key="rel.id"
@@ -141,5 +139,7 @@ const formattedDate = props.article.published_at
         </section>
       </article>
     </main>
+
+    <SiteFooter />
   </div>
 </template>

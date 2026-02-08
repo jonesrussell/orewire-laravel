@@ -2,12 +2,28 @@
 </script>
 
 <template>
-  <div class="rounded-lg border border-zinc-700 bg-zinc-800/50 p-4 dark:border-zinc-700 dark:bg-zinc-800/50">
-    <h3 class="mb-3 text-sm font-medium text-zinc-200 dark:text-zinc-200">
-      Metal Prices
-    </h3>
-    <p class="text-sm text-zinc-500 dark:text-zinc-500">
-      Metal prices widget coming soon.
+  <div class="rounded border border-ore-line bg-ore-surface/50 p-4">
+    <h3 class="section-label mb-3">Metal Prices</h3>
+    <div class="space-y-2">
+      <div class="flex items-center justify-between text-sm">
+        <span class="text-ore-mid">Gold</span>
+        <span class="font-mono text-xs text-ore-dim">&mdash;</span>
+      </div>
+      <div class="flex items-center justify-between text-sm">
+        <span class="text-ore-mid">Silver</span>
+        <span class="font-mono text-xs text-ore-dim">&mdash;</span>
+      </div>
+      <div class="flex items-center justify-between text-sm">
+        <span class="text-ore-mid">Copper</span>
+        <span class="font-mono text-xs text-ore-dim">&mdash;</span>
+      </div>
+      <div class="flex items-center justify-between text-sm">
+        <span class="text-ore-mid">Lithium</span>
+        <span class="font-mono text-xs text-ore-dim">&mdash;</span>
+      </div>
+    </div>
+    <p class="mt-3 text-center text-[10px] uppercase tracking-wider text-ore-dim">
+      Live pricing coming soon
     </p>
   </div>
 </template>

@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { Head, Link, router } from '@inertiajs/vue3';
-import { Search, Menu } from 'lucide-vue-next';
-import { ref } from 'vue';
 import CommodityFilter from '@/components/CommodityFilter.vue';
 import JurisdictionFilter from '@/components/JurisdictionFilter.vue';
 import MiningArticleCard from '@/components/MiningArticleCard.vue';
-import { Input } from '@/components/ui/input';
+import SiteFooter from '@/components/SiteFooter.vue';
+import SiteHeader from '@/components/SiteHeader.vue';
 import type { PaginatedMiningArticles } from '@/types';
 
 interface Props {
@@ -21,73 +20,26 @@ interface Props {
   };
 }
 
-const props = defineProps<Props>();
-
-const searchQuery = ref(props.filters.search || '');
-const showMobileMenu = ref(false);
-
-const performSearch = () => {
-  router.get('/articles', { ...props.filters, search: searchQuery.value }, { preserveState: true });
-};
+defineProps<Props>();
 </script>
 
 <template>
-  <Head title="Mining Articles - OreWire" />
+  <Head title="Mining Articles — OreWire" />
 
-  <div class="min-h-screen bg-zinc-900 dark:bg-zinc-950">
-    <header class="sticky top-0 z-50 border-b border-zinc-800 bg-zinc-950 dark:border-zinc-950">
-      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="flex h-16 items-center justify-between">
-          <Link href="/" class="flex shrink-0 items-center gap-2 text-xl font-semibold text-zinc-100">
-            OreWire
-          </Link>
+  <div class="min-h-screen bg-ore-deep">
+    <SiteHeader />
 
-          <nav class="hidden items-center gap-6 md:flex">
-            <Link href="/" class="text-sm text-zinc-300 hover:text-white">Home</Link>
-            <Link href="/articles" class="text-sm text-zinc-300 hover:text-white">Articles</Link>
-            <Link href="/drill-results" class="text-sm text-zinc-300 hover:text-white">Drill Results</Link>
-          </nav>
+    <main class="mx-auto max-w-[1400px] px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
+      <h1 class="mb-6 font-serif text-3xl font-bold text-ore-bright sm:text-4xl">
+        Articles
+      </h1>
 
-          <div class="flex items-center gap-4">
-            <div class="relative hidden md:block">
-              <Search class="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-zinc-500" />
-              <Input
-                v-model="searchQuery"
-                type="search"
-                placeholder="Search..."
-                class="w-64 border-zinc-700 bg-zinc-900 pl-10 text-white placeholder:text-zinc-500"
-                @keyup.enter="performSearch"
-              />
-            </div>
-            <button
-              type="button"
-              class="text-zinc-400 hover:text-white md:hidden"
-              @click="showMobileMenu = !showMobileMenu"
-            >
-              <Menu class="size-5" />
-            </button>
-          </div>
-        </div>
-
-        <div v-if="showMobileMenu" class="border-t border-zinc-800 py-4 md:hidden">
-          <Input
-            v-model="searchQuery"
-            type="search"
-            placeholder="Search..."
-            class="mb-4 w-full border-zinc-700 bg-zinc-900 text-white"
-            @keyup.enter="performSearch"
-          />
-        </div>
-      </div>
-    </header>
-
-    <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-      <div class="mb-6 flex flex-wrap gap-4">
+      <div v-if="commodities.length || jurisdictions.length" class="mb-8 space-y-3">
         <CommodityFilter :commodities="commodities" :current="filters.commodity" :filters="filters" />
         <JurisdictionFilter :jurisdictions="jurisdictions" :current="filters.jurisdiction" :filters="filters" />
       </div>
 
-      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div class="grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
         <MiningArticleCard
           v-for="article in articles.data"
           :key="article.id"
@@ -95,21 +47,25 @@ const performSearch = () => {
         />
       </div>
 
-      <div v-if="articles.last_page > 1" class="mt-8 flex justify-center gap-2">
+      <div v-if="articles.last_page > 1" class="mt-10 flex justify-center gap-1">
         <Link
           v-for="link in articles.links.filter(l => l.url)"
           :key="link.label"
           :href="link.url!"
-          class="rounded px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800 hover:text-white"
-          :class="{ 'bg-zinc-700 text-white': link.active }"
+          class="rounded px-3.5 py-2 text-sm font-medium transition-colors"
+          :class="link.active
+            ? 'bg-ore-copper text-ore-deep'
+            : 'text-ore-mid hover:bg-ore-raised hover:text-ore-bright'"
         >
-          {{ link.label.replace('&laquo;', '‹').replace('&raquo;', '›') }}
+          {{ link.label.replace('&laquo;', '\u2039').replace('&raquo;', '\u203A') }}
         </Link>
       </div>
 
-      <p v-if="articles.data.length === 0" class="py-12 text-center text-zinc-500">
+      <p v-if="articles.data.length === 0" class="py-16 text-center text-ore-dim">
         No articles found.
       </p>
     </main>
+
+    <SiteFooter />
   </div>
 </template>

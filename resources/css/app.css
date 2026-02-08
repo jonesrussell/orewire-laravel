@@ -9,48 +9,41 @@
 
 @theme inline {
     --font-sans:
-        Instrument Sans, ui-sans-serif, system-ui, sans-serif,
+        'Outfit', ui-sans-serif, system-ui, sans-serif,
         'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
         'Noto Color Emoji';
+    --font-serif:
+        'Newsreader', Georgia, 'Times New Roman', serif;
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
     --radius-sm: calc(var(--radius) - 4px);
 
+    /* Shadcn semantic colors (dashboard compatibility) */
     --color-background: var(--background);
     --color-foreground: var(--foreground);
-
     --color-card: var(--card);
     --color-card-foreground: var(--card-foreground);
-
     --color-popover: var(--popover);
     --color-popover-foreground: var(--popover-foreground);
-
     --color-primary: var(--primary);
     --color-primary-foreground: var(--primary-foreground);
-
     --color-secondary: var(--secondary);
     --color-secondary-foreground: var(--secondary-foreground);
-
     --color-muted: var(--muted);
     --color-muted-foreground: var(--muted-foreground);
-
     --color-accent: var(--accent);
     --color-accent-foreground: var(--accent-foreground);
-
     --color-destructive: var(--destructive);
     --color-destructive-foreground: var(--destructive-foreground);
-
     --color-border: var(--border);
     --color-input: var(--input);
     --color-ring: var(--ring);
-
     --color-chart-1: var(--chart-1);
     --color-chart-2: var(--chart-2);
     --color-chart-3: var(--chart-3);
     --color-chart-4: var(--chart-4);
     --color-chart-5: var(--chart-5);
-
     --color-sidebar: var(--sidebar-background);
     --color-sidebar-foreground: var(--sidebar-foreground);
     --color-sidebar-primary: var(--sidebar-primary);
@@ -59,15 +52,37 @@
     --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-ring: var(--sidebar-ring);
+
+    /* ─── Orewire Design System ─── */
+
+    /* Backgrounds */
+    --color-ore-deep: #0C0E12;
+    --color-ore-base: #111318;
+    --color-ore-surface: #181B22;
+    --color-ore-raised: #1F2229;
+    --color-ore-hover: #262930;
+
+    /* Borders */
+    --color-ore-line: #2A2D35;
+    --color-ore-line-faint: #1E2128;
+
+    /* Text */
+    --color-ore-bright: #E6E2DD;
+    --color-ore-mid: #9B9590;
+    --color-ore-dim: #5C5854;
+
+    /* Accents */
+    --color-ore-copper: #C17F4E;
+    --color-ore-copper-light: #D4956A;
+    --color-ore-copper-dark: #8B5A35;
+    --color-ore-gold: #D4A853;
+    --color-ore-gold-dark: #A08040;
+    --color-ore-green: #4A9E6D;
+    --color-ore-red: #C75450;
 }
 
 /*
-  The default border color has changed to `currentColor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
-
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
+  Tailwind CSS v4 border color compatibility.
 */
 @layer base {
     *,
@@ -79,16 +94,7 @@
     }
 }
 
-@layer utilities {
-    body,
-    html {
-        --font-sans:
-            'Instrument Sans', ui-sans-serif, system-ui, sans-serif,
-            'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
-            'Noto Color Emoji';
-    }
-}
-
+/* ─── Light mode (dashboard) ─── */
 :root {
     --background: hsl(0 0% 100%);
     --foreground: hsl(0 0% 3.9%);
@@ -126,40 +132,41 @@
     --sidebar: hsl(0 0% 98%);
 }
 
+/* ─── Dark mode (Orewire palette) ─── */
 .dark {
-    --background: hsl(0 0% 3.9%);
-    --foreground: hsl(0 0% 98%);
-    --card: hsl(0 0% 3.9%);
-    --card-foreground: hsl(0 0% 98%);
-    --popover: hsl(0 0% 3.9%);
-    --popover-foreground: hsl(0 0% 98%);
-    --primary: hsl(0 0% 98%);
-    --primary-foreground: hsl(0 0% 9%);
-    --secondary: hsl(0 0% 14.9%);
-    --secondary-foreground: hsl(0 0% 98%);
-    --muted: hsl(0 0% 16.08%);
-    --muted-foreground: hsl(0 0% 63.9%);
-    --accent: hsl(0 0% 14.9%);
-    --accent-foreground: hsl(0 0% 98%);
-    --destructive: hsl(0 84% 60%);
-    --destructive-foreground: hsl(0 0% 98%);
-    --border: hsl(0 0% 14.9%);
-    --input: hsl(0 0% 14.9%);
-    --ring: hsl(0 0% 83.1%);
-    --chart-1: hsl(220 70% 50%);
-    --chart-2: hsl(160 60% 45%);
-    --chart-3: hsl(30 80% 55%);
-    --chart-4: hsl(280 65% 60%);
-    --chart-5: hsl(340 75% 55%);
-    --sidebar-background: hsl(0 0% 7%);
-    --sidebar-foreground: hsl(0 0% 95.9%);
-    --sidebar-primary: hsl(360, 100%, 100%);
-    --sidebar-primary-foreground: hsl(0 0% 100%);
-    --sidebar-accent: hsl(0 0% 15.9%);
-    --sidebar-accent-foreground: hsl(240 4.8% 95.9%);
-    --sidebar-border: hsl(0 0% 15.9%);
-    --sidebar-ring: hsl(217.2 91.2% 59.8%);
-    --sidebar: hsl(240 5.9% 10%);
+    --background: #0C0E12;
+    --foreground: #E6E2DD;
+    --card: #181B22;
+    --card-foreground: #E6E2DD;
+    --popover: #181B22;
+    --popover-foreground: #E6E2DD;
+    --primary: #E6E2DD;
+    --primary-foreground: #0C0E12;
+    --secondary: #1F2229;
+    --secondary-foreground: #E6E2DD;
+    --muted: #1F2229;
+    --muted-foreground: #9B9590;
+    --accent: #1F2229;
+    --accent-foreground: #E6E2DD;
+    --destructive: #C75450;
+    --destructive-foreground: #E6E2DD;
+    --border: #2A2D35;
+    --input: #2A2D35;
+    --ring: #C17F4E;
+    --chart-1: #C17F4E;
+    --chart-2: #4A9E6D;
+    --chart-3: #D4A853;
+    --chart-4: #5B8DB8;
+    --chart-5: #C75450;
+    --sidebar-background: #111318;
+    --sidebar-foreground: #E6E2DD;
+    --sidebar-primary: #E6E2DD;
+    --sidebar-primary-foreground: #0C0E12;
+    --sidebar-accent: #1F2229;
+    --sidebar-accent-foreground: #E6E2DD;
+    --sidebar-border: #2A2D35;
+    --sidebar-ring: #C17F4E;
+    --sidebar: #111318;
 }
 
 @layer base {
@@ -169,4 +176,140 @@
     body {
         @apply bg-background text-foreground;
     }
+}
+
+/* ─── Wire Ticker ─── */
+@keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+
+.ticker-track {
+    display: flex;
+    width: max-content;
+    animation: ticker 80s linear infinite;
+}
+
+.ticker-track:hover {
+    animation-play-state: paused;
+}
+
+.ticker-fade::before,
+.ticker-fade::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 3rem;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.ticker-fade::before {
+    left: 0;
+    background: linear-gradient(to right, var(--color-ore-base), transparent);
+}
+
+.ticker-fade::after {
+    right: 0;
+    background: linear-gradient(to left, var(--color-ore-base), transparent);
+}
+
+/* ─── Article prose ─── */
+.prose-ore {
+    color: #9B9590;
+    font-size: 1.0625rem;
+    line-height: 1.8;
+}
+
+.prose-ore h1,
+.prose-ore h2,
+.prose-ore h3,
+.prose-ore h4 {
+    color: #E6E2DD;
+    font-family: 'Newsreader', Georgia, serif;
+    line-height: 1.3;
+}
+
+.prose-ore h2 { margin-top: 2em; margin-bottom: 0.75em; }
+.prose-ore h3 { margin-top: 1.5em; margin-bottom: 0.5em; }
+
+.prose-ore p {
+    margin-bottom: 1.25em;
+}
+
+.prose-ore a {
+    color: #C17F4E;
+    text-decoration: underline;
+    text-decoration-color: #8B5A35;
+    text-underline-offset: 3px;
+    transition: color 0.15s, text-decoration-color 0.15s;
+}
+
+.prose-ore a:hover {
+    color: #D4956A;
+    text-decoration-color: #C17F4E;
+}
+
+.prose-ore strong {
+    color: #E6E2DD;
+    font-weight: 600;
+}
+
+.prose-ore blockquote {
+    border-left: 3px solid #C17F4E;
+    padding-left: 1.25em;
+    color: #9B9590;
+    font-style: italic;
+}
+
+.prose-ore code {
+    color: #D4A853;
+    background: #1F2229;
+    padding: 0.125rem 0.375rem;
+    border-radius: 0.25rem;
+    font-size: 0.875em;
+}
+
+.prose-ore hr {
+    border-color: #2A2D35;
+    margin: 2em 0;
+}
+
+.prose-ore ul, .prose-ore ol {
+    padding-left: 1.5em;
+    margin-bottom: 1.25em;
+}
+
+.prose-ore li {
+    margin-bottom: 0.375em;
+}
+
+.prose-ore ul li::marker,
+.prose-ore ol li::marker {
+    color: #5C5854;
+}
+
+.prose-ore img {
+    border-radius: 0.5rem;
+    margin: 1.5em 0;
+}
+
+/* ─── Section label (newspaper-style) ─── */
+.section-label {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #9B9590;
+}
+
+.section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #2A2D35;
 }
