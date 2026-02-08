@@ -5,7 +5,6 @@ use App\Http\Controllers\CompanyPageController;
 use App\Http\Controllers\DrillResultPageController;
 use App\Http\Controllers\MiningArticlePageController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 Route::get('/', [MiningArticlePageController::class, 'home'])->name('home');
 
