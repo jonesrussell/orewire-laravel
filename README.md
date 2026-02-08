@@ -106,11 +106,13 @@ dep deploy orewire.ca
 cp deploy/systemd-user/orewire-*.service ~/.config/systemd/user/
 sudo loginctl enable-linger deployer
 systemctl --user daemon-reload
-systemctl --user enable orewire-inertia-ssr orewire-horizon orewire-schedule-work
-systemctl --user start orewire-inertia-ssr orewire-horizon orewire-schedule-work
+systemctl --user enable orewire-inertia-ssr orewire-horizon orewire-mining-consumer orewire-schedule-work
+systemctl --user start orewire-inertia-ssr orewire-horizon orewire-mining-consumer orewire-schedule-work
 ```
 
 5. Set `OREWIRE_INGEST_TOKEN` and other env vars in production `.env`
+
+Queue processing uses Laravel Horizon (Redis). Horizon dashboard is at `/horizon` (authenticated users only; configure in `HorizonServiceProvider::gate()`).
 
 ### Auth note
 
