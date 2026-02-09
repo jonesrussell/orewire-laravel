@@ -51,16 +51,27 @@ class CleanupNonMiningArticles extends Command
     }
 
     /**
-     * Mining-specific keywords used to determine if an article is actually
-     * about mining. Matches the tightened classifier rule (migration 011).
+     * REGEXP patterns for mining keywords with word boundaries.
+     * Uses MariaDB [[:<:]] / [[:>:]] word boundary syntax to avoid
+     * substring matches (e.g. "miner" matching "Examiner").
      */
-    private const MINING_KEYWORDS = [
-        'mining', 'miner', 'mine site', 'mine project',
-        'exploration', 'drilling program', 'drill results', 'drill intercept',
-        'ore', 'orebody', 'assay', 'intercept',
-        'open-pit', 'tailings', 'smelter', 'refinery',
-        'metallurgy', 'metallurgical', 'concentrate',
-        'mineral exploration', 'mineral resource', 'mineral reserve',
+    private const MINING_PATTERNS = [
+        '[[:<:]]mining[[:>:]]',
+        '[[:<:]]miner[[:>:]]',
+        '[[:<:]]mine[[:>:]]',
+        '[[:<:]]mineral[[:>:]]',
+        '[[:<:]]exploration[[:>:]]',
+        '[[:<:]]drilling[[:>:]]',
+        '[[:<:]]ore[[:>:]]',
+        '[[:<:]]orebody[[:>:]]',
+        '[[:<:]]assay[[:>:]]',
+        '[[:<:]]open-pit[[:>:]]',
+        '[[:<:]]tailings[[:>:]]',
+        '[[:<:]]smelter[[:>:]]',
+        '[[:<:]]refinery[[:>:]]',
+        '[[:<:]]metallurgy[[:>:]]',
+        '[[:<:]]metallurgical[[:>:]]',
+        '[[:<:]]concentrate[[:>:]]',
     ];
 
     private function buildNonMiningQuery(): Builder
@@ -71,9 +82,8 @@ class CleanupNonMiningArticles extends Command
             ->whereDoesntHave('drillResults')
             ->whereNull('mining_jurisdiction_id')
             ->where(function (Builder $q) {
-                // No mining keywords in title or content
-                foreach (self::MINING_KEYWORDS as $keyword) {
-                    $q->where('title', 'NOT LIKE', '%'.$keyword.'%');
+                foreach (self::MINING_PATTERNS as $pattern) {
+                    $q->where('title', 'NOT REGEXP', $pattern);
                 }
             });
     }
