@@ -56,7 +56,9 @@ class DumpDatabaseStream extends Command
         $process->setTimeout(null);
 
         $process->run(function (string $type, string $buffer): void {
-            echo $buffer;
+            if ($type === Process::OUT) {
+                echo $buffer;
+            }
         });
 
         if (! $process->isSuccessful()) {
