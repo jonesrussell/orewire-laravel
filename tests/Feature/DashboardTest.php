@@ -7,10 +7,11 @@ test('guests are redirected to the login page', function () {
     $response->assertRedirect(route('login'));
 });
 
-test('authenticated users are redirected to articles dashboard', function () {
+test('authenticated users can access the dashboard', function () {
     $user = User::factory()->create();
     $this->actingAs($user);
 
     $response = $this->get(route('dashboard'));
-    $response->assertRedirect(route('dashboard.articles.index'));
+    $response->assertSuccessful();
+    $response->assertInertia(fn ($page) => $page->component('Dashboard'));
 });
