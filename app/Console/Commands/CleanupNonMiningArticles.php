@@ -50,14 +50,32 @@ class CleanupNonMiningArticles extends Command
         return Command::SUCCESS;
     }
 
+    /**
+     * Mining-specific keywords used to determine if an article is actually
+     * about mining. Matches the tightened classifier rule (migration 011).
+     */
+    private const MINING_KEYWORDS = [
+        'mining', 'miner', 'mine site', 'mine project',
+        'exploration', 'drilling program', 'drill results', 'drill intercept',
+        'ore', 'orebody', 'assay', 'intercept',
+        'open-pit', 'tailings', 'smelter', 'refinery',
+        'metallurgy', 'metallurgical', 'concentrate',
+        'mineral exploration', 'mineral resource', 'mineral reserve',
+    ];
+
     private function buildNonMiningQuery(): Builder
     {
         return MiningArticle::query()
             ->whereDoesntHave('commodities')
             ->whereDoesntHave('companies')
-            ->whereDoesntHave('miningCategories')
             ->whereDoesntHave('drillResults')
-            ->whereNull('mining_jurisdiction_id');
+            ->whereNull('mining_jurisdiction_id')
+            ->where(function (Builder $q) {
+                // No mining keywords in title or content
+                foreach (self::MINING_KEYWORDS as $keyword) {
+                    $q->where('title', 'NOT LIKE', '%'.$keyword.'%');
+                }
+            });
     }
 
     private function showSample(Builder $query): void
