@@ -1233,7 +1233,7 @@
             "source": {
                 "type": "git",
                 "url": "git@github-northcloud:jonesrussell/northcloud-laravel.git",
-                "reference": "0d0fed46f4a7c7c9992cbba6fe6a0bd2abc9fc7c"
+                "reference": "49688d6570f074fcad398c285156c9cd1930c5ec"
             },
             "require": {
                 "ext-json": "*",
@@ -1275,11 +1275,7 @@
                 "MIT"
             ],
             "description": "Shared article ingestion pipeline for North Cloud-connected Laravel sites",
-            "support": {
-                "source": "https://github.com/jonesrussell/northcloud-laravel/tree/main",
-                "issues": "https://github.com/jonesrussell/northcloud-laravel/issues"
-            },
-            "time": "2026-02-08T02:35:46+00:00"
+            "time": "2026-02-09T02:34:08+00:00"
         },
         {
             "name": "laravel/fortify",
@@ -2663,16 +2659,16 @@
         },
         {
             "name": "nette/schema",
-            "version": "v1.3.3",
+            "version": "v1.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/schema.git",
-                "reference": "2befc2f42d7c715fd9d95efc31b1081e5d765004"
+                "reference": "086497a2f34b82fede9b5a41cc8e131d087cd8f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/schema/zipball/2befc2f42d7c715fd9d95efc31b1081e5d765004",
-                "reference": "2befc2f42d7c715fd9d95efc31b1081e5d765004",
+                "url": "https://api.github.com/repos/nette/schema/zipball/086497a2f34b82fede9b5a41cc8e131d087cd8f7",
+                "reference": "086497a2f34b82fede9b5a41cc8e131d087cd8f7",
                 "shasum": ""
             },
             "require": {
@@ -2680,8 +2676,8 @@
                 "php": "8.1 - 8.5"
             },
             "require-dev": {
-                "nette/tester": "^2.5.2",
-                "phpstan/phpstan-nette": "^2.0@stable",
+                "nette/tester": "^2.6",
+                "phpstan/phpstan": "^2.0@stable",
                 "tracy/tracy": "^2.8"
             },
             "type": "library",
@@ -2722,9 +2718,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/schema/issues",
-                "source": "https://github.com/nette/schema/tree/v1.3.3"
+                "source": "https://github.com/nette/schema/tree/v1.3.4"
             },
-            "time": "2025-10-30T22:57:59+00:00"
+            "time": "2026-02-08T02:54:00+00:00"
         },
         {
             "name": "nette/utils",

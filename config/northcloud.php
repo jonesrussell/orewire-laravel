@@ -39,6 +39,17 @@ return [
         'allowed' => [],
     ],
 
+    'navigation' => [
+        'enabled' => true,
+        'items' => [
+            [
+                'title' => 'Articles',
+                'route' => 'dashboard.articles.index',
+                'icon' => 'FileText',
+            ],
+        ],
+    ],
+
     'admin' => [
         'resource' => \App\Admin\MiningArticleResource::class,
         'controller' => \App\Http\Controllers\Admin\MiningArticleController::class,

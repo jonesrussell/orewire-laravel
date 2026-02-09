@@ -178,26 +178,6 @@ return [
             'backoff_cap' => env('REDIS_BACKOFF_CAP', 1000),
         ],
 
-        // North Cloud Redis connection for mining article ingestion
-        // Used by: php artisan articles:subscribe
-        // Prefix disabled: pub/sub channels are shared across services
-        'northcloud' => [
-            'prefix' => '',
-            'url' => env('NORTHCLOUD_REDIS_URL'),
-            'host' => env('NORTHCLOUD_REDIS_HOST', '127.0.0.1'),
-            'username' => env('NORTHCLOUD_REDIS_USERNAME'),
-            'password' => env('NORTHCLOUD_REDIS_PASSWORD'),
-            'port' => env('NORTHCLOUD_REDIS_PORT', '6379'),
-            'database' => env('NORTHCLOUD_REDIS_DB', '0'),
-            // read_timeout enables graceful shutdown: subscribe throws exception
-            // every 30s, allowing the command to check for SIGTERM/SIGINT signals
-            'read_timeout' => env('NORTHCLOUD_REDIS_READ_TIMEOUT', 30),
-            'max_retries' => env('NORTHCLOUD_REDIS_MAX_RETRIES', 3),
-            'backoff_algorithm' => env('NORTHCLOUD_REDIS_BACKOFF_ALGORITHM', 'decorrelated_jitter'),
-            'backoff_base' => env('NORTHCLOUD_REDIS_BACKOFF_BASE', 100),
-            'backoff_cap' => env('NORTHCLOUD_REDIS_BACKOFF_CAP', 1000),
-        ],
-
     ],
 
 ];
