@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+## Description: Pull production database from Deployer host and import into local DDEV
+## Usage: pull-db
+## Example: "ddev pull-db"
+
+set -e
+
+DEPLOY_SSH_USER="${DEPLOY_SSH_USER:-deployer}"
+DEPLOY_SSH_HOST="${DEPLOY_SSH_HOST:-orewire.ca}"
+DEPLOY_PATH="${DEPLOY_PATH:-~/orewire-laravel/current}"
+
+TMPFILE=$(mktemp /tmp/ddev-pull-db-XXXXXX.sql.gz)
+trap 'echo "Temp file left at: $TMPFILE"' EXIT
+
+echo "Pulling database from ${DEPLOY_SSH_USER}@${DEPLOY_SSH_HOST}..."
+if ! ssh "${DEPLOY_SSH_USER}@${DEPLOY_SSH_HOST}" "cd $DEPLOY_PATH && php artisan db:dump-stream | gzip" > "$TMPFILE"; then
+    echo "Error: SSH or remote dump failed. Temp file left at: $TMPFILE"
+    exit 1
+fi
+
+if [ ! -s "$TMPFILE" ]; then
+    echo "Error: Dump file is empty. Temp file left at: $TMPFILE"
+    exit 1
+fi
+
+if ! gzip -t "$TMPFILE" 2>/dev/null; then
+    echo "Error: Dump file is corrupted (invalid gzip). Temp file left at: $TMPFILE"
+    exit 1
+fi
+
+echo "Importing into local DDEV..."
+ddev import-db --file="$TMPFILE"
+
+trap - EXIT
+rm -f "$TMPFILE"
+echo "Done."
