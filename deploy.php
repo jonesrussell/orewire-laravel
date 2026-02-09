@@ -28,6 +28,11 @@ host('orewire.ca')
 // Hooks
 
 after('deploy:failed', 'deploy:unlock');
+
+// Disable view caching — Inertia renders views client-side and artisan:view:cache
+// tries to connect to the SSR server which isn't running during deploy.
+task('artisan:view:cache')->disable();
+
 task('deploy:migrate', function (): void {
     run('cd {{release_path}} && {{bin/php}} artisan migrate --force');
 });
