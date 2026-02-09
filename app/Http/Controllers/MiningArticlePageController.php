@@ -47,8 +47,7 @@ class MiningArticlePageController extends Controller
                 ->get();
 
             $commodityPrices = CommodityPrice::query()
-                ->orderByRaw("CASE WHEN type = 'metal' THEN 0 ELSE 1 END")
-                ->orderBy('name')
+                ->orderByRaw("CASE symbol WHEN 'XAU' THEN 0 WHEN 'XAG' THEN 1 WHEN 'XCU' THEN 2 ELSE 3 END")
                 ->get();
 
             return [
