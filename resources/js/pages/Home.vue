@@ -6,13 +6,14 @@ import MetalPricesWidget from '@/components/MetalPricesWidget.vue';
 import MiningArticleCard from '@/components/MiningArticleCard.vue';
 import SiteFooter from '@/components/SiteFooter.vue';
 import SiteHeader from '@/components/SiteHeader.vue';
-import type { MiningArticle, DrillResult, Company } from '@/types';
+import type { MiningArticle, DrillResult, Company, CommodityPrice } from '@/types';
 
 interface Props {
   latestArticles: MiningArticle[];
   latestDrillResults: DrillResult[];
   financings: MiningArticle[];
   trendingCompanies: (Company & { mining_articles_count?: number })[];
+  commodityPrices: CommodityPrice[];
 }
 
 const props = defineProps<Props>();
@@ -189,7 +190,7 @@ const featuredDate = featuredArticle?.published_at
             </Link>
           </section>
 
-          <MetalPricesWidget />
+          <MetalPricesWidget :prices="commodityPrices" />
 
           <!-- Trending companies -->
           <section>

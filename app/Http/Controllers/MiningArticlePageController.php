@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Commodity;
+use App\Models\CommodityPrice;
 use App\Models\Company;
 use App\Models\DrillResult;
 use App\Models\MiningArticle;
@@ -45,11 +46,17 @@ class MiningArticlePageController extends Controller
                 ->limit(5)
                 ->get();
 
+            $commodityPrices = CommodityPrice::query()
+                ->orderByRaw("CASE WHEN type = 'metal' THEN 0 ELSE 1 END")
+                ->orderBy('name')
+                ->get();
+
             return [
                 'latestArticles' => $latestArticles,
                 'latestDrillResults' => $latestDrillResults,
                 'financings' => $financings,
                 'trendingCompanies' => $trendingCompanies,
+                'commodityPrices' => $commodityPrices,
             ];
         });
 

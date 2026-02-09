@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'metals_dev' => [
+        'api_key' => env('METALS_DEV_API_KEY'),
+        'base_url' => env('METALS_DEV_BASE_URL', 'https://api.metals.dev/v1'),
+    ],
+
 ];

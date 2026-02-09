@@ -72,6 +72,17 @@ export interface PaginatedMiningArticles {
   links: { url: string | null; label: string; active: boolean }[];
 }
 
+export interface CommodityPrice {
+  id: number;
+  symbol: string;
+  name: string;
+  type: string;
+  price_usd: string;
+  previous_price_usd: string | null;
+  change_24h_percent: string | null;
+  fetched_at: string | null;
+}
+
 export interface PaginatedDrillResults {
   data: DrillResult[];
   current_page: number;
