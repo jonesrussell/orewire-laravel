@@ -48,9 +48,9 @@ task('deploy:install_services', function (): void {
 before('deploy:symlink', 'deploy:install_services');
 
 task('deploy:restart_services', function (): void {
-    run('cd {{release_path}} && {{bin/php}} artisan horizon:terminate', ['allow_failure' => true]);
-    run('cd {{release_path}} && {{bin/php}} artisan inertia:stop-ssr', ['allow_failure' => true]);
-    run('systemctl --user restart orewire-horizon.service orewire-inertia-ssr.service orewire-schedule-work.service orewire-mining-consumer.service', ['allow_failure' => true]);
+    run('cd {{release_path}} && {{bin/php}} artisan horizon:terminate || true');
+    run('cd {{release_path}} && {{bin/php}} artisan inertia:stop-ssr || true');
+    run('systemctl --user restart orewire-horizon.service orewire-inertia-ssr.service orewire-schedule-work.service orewire-mining-consumer.service || true');
 });
 after('deploy:migrate', 'deploy:restart_services');
 task('deploy:reload_php_fpm', function (): void {
