@@ -14,7 +14,7 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { useNorthcloudNavigation } from '@/composables/useNorthcloudNavigation';
+import { useNorthcloudNavigation } from '@jonesrussell/northcloud-laravel';
 import { dashboard } from '@/routes';
 import { type NavItem } from '@/types';
 import AppLogo from './AppLogo.vue';
