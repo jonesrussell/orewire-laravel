@@ -8,16 +8,10 @@
         "framework"
     ],
     "license": "MIT",
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "git@github-northcloud:jonesrussell/northcloud-laravel.git"
-        }
-    ],
     "require": {
         "php": "^8.2",
         "inertiajs/inertia-laravel": "^2.0",
-        "jonesrussell/northcloud-laravel": "dev-main",
+        "jonesrussell/northcloud-laravel": "^0.1",
         "laravel/fortify": "^1.30",
         "laravel/framework": "^12.0",
         "laravel/horizon": "^5.41",
@@ -26,7 +20,7 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
-        "laravel/boost": "^2.0",
+        "laravel/boost": "^2.1",
         "laravel/pail": "^1.2.2",
         "laravel/pint": "^1.24",
         "laravel/sail": "^1.41",
