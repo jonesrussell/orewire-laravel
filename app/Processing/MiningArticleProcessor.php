@@ -10,7 +10,9 @@ use App\Services\Resolvers\CompanyResolver;
 use App\Services\Resolvers\MiningCategoryResolver;
 use App\Services\Resolvers\MiningJurisdictionResolver;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use JonesRussell\NorthCloud\Contracts\ArticleModel;
 use JonesRussell\NorthCloud\Contracts\ArticleProcessor;
@@ -33,6 +35,10 @@ class MiningArticleProcessor implements ArticleProcessor
 
     public function process(array $data, ?ArticleModel $article): ?Model
     {
+        if ($this->isDuplicate($data)) {
+            return null;
+        }
+
         $article = $this->ingestionService->ingest($data, skipDedup: true);
 
         if (! $article) {
@@ -45,6 +51,53 @@ class MiningArticleProcessor implements ArticleProcessor
         $this->invalidateCache();
 
         return $article;
+    }
+
+    protected function isDuplicate(array $data): bool
+    {
+        $title = $data['title'] ?? $data['og_title'] ?? null;
+        if (! $title) {
+            return false;
+        }
+
+        $normalized = self::normalizeTitle($title);
+
+        $query = MiningArticle::whereRaw('LOWER(title) LIKE ?', [$normalized.'%']);
+
+        $publishedDate = $data['published_date'] ?? $data['publisher']['published_at'] ?? null;
+        if ($publishedDate) {
+            try {
+                $date = Carbon::parse($publishedDate);
+                $query->whereBetween('published_at', [
+                    $date->copy()->subDay(),
+                    $date->copy()->addDay(),
+                ]);
+            } catch (\Exception) {
+                // No date constraint if unparseable
+            }
+        }
+
+        if ($query->exists()) {
+            Log::info('Skipping duplicate syndicated article', [
+                'title' => $title,
+                'normalized' => $normalized,
+            ]);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public static function normalizeTitle(string $title): string
+    {
+        // Strip trailing " - Source Name" suffix (after last " - ")
+        $lastDash = strrpos($title, ' - ');
+        if ($lastDash !== false) {
+            $title = substr($title, 0, $lastDash);
+        }
+
+        return mb_strtolower(trim($title));
     }
 
     protected function resolveRelations(MiningArticle $article, array $data): void
