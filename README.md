@@ -112,6 +112,12 @@ systemctl --user start orewire-inertia-ssr orewire-horizon orewire-mining-consum
 
 5. Set `OREWIRE_INGEST_TOKEN` and other env vars in production `.env`
 
+6. Grant dashboard admin access to the deployer (or any user) so they can access `/dashboard/articles`:
+
+```bash
+php artisan orewire:make-admin deployer@orewire.ca
+```
+
 Queue processing uses Laravel Horizon (Redis). Horizon dashboard is at `/horizon` (authenticated users only; configure in `HorizonServiceProvider::gate()`).
 
 ### Auth note
