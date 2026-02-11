@@ -7,7 +7,28 @@ return [
 
     'redis' => [
         'connection' => env('NORTHCLOUD_REDIS_CONNECTION', 'northcloud'),
-        'channels' => ['articles:mining'],
+        'channels' => [
+            // Layer 5: catch-all
+            'articles:mining',
+            // Relevance
+            'mining:core',
+            'mining:peripheral',
+            // Commodities
+            'mining:commodity:gold',
+            'mining:commodity:copper',
+            'mining:commodity:lithium',
+            'mining:commodity:nickel',
+            'mining:commodity:uranium',
+            'mining:commodity:iron-ore',
+            'mining:commodity:rare-earths',
+            // Mining stages
+            'mining:stage:exploration',
+            'mining:stage:development',
+            'mining:stage:production',
+            // Location
+            'mining:canada',
+            'mining:international',
+        ],
     ],
 
     'quality' => [
