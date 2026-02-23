@@ -73,7 +73,7 @@ orewire.ca {
   }
 
   log {
-    output file /home/deployer/orewire-laravel/log/access.log {
+    output file /var/log/caddy/orewire.ca.access.log {
       mode 0644
     }
   }
