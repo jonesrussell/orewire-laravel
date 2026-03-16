@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use Database\Factories\MiningArticleFactory;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -19,6 +21,11 @@ use JonesRussell\NorthCloud\Models\Article;
 class MiningArticle extends Article
 {
     protected $table = 'mining_articles';
+
+    protected static function newFactory(): Factory
+    {
+        return MiningArticleFactory::new();
+    }
 
     protected $fillable = [
         'news_source_id',
