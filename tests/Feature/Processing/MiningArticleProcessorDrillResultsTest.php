@@ -109,29 +109,35 @@ it('handles unknown commodity gracefully', function () {
 });
 
 it('replaces drill results on re-ingestion', function () {
+    $processor = makeProcessor();
+
+    // First ingestion: create article with 1 drill result
     $payload = makePayload([
-        'title' => 'Unique Re-ingestion Test Article',
+        'title' => 'Re-ingestion Test Article',
         'drill_results' => [
             ['hole_id' => 'DDH-24-001', 'commodity' => 'gold', 'intercept_m' => 10.0, 'grade' => 2.0, 'unit' => 'g/t'],
         ],
     ]);
-
-    $processor = makeProcessor();
     $article = $processor->process($payload, null);
+    expect($article)->not->toBeNull();
     expect(DrillResult::where('mining_article_id', $article->id)->count())->toBe(1);
 
-    // Re-ingest with different drill results and different title to avoid dedup
-    $payload2 = makePayload([
-        'title' => 'Updated Re-ingestion Test Article',
+    // Directly call syncDrillResults on the same article with different results
+    $newData = [
         'drill_results' => [
             ['hole_id' => 'DDH-24-010', 'commodity' => 'gold', 'intercept_m' => 5.0, 'grade' => 1.0, 'unit' => 'g/t'],
             ['hole_id' => 'DDH-24-011', 'commodity' => 'gold', 'intercept_m' => 8.0, 'grade' => 3.0, 'unit' => 'g/t'],
         ],
-    ]);
+    ];
 
-    $article2 = $processor->process($payload2, null);
-    expect($article2)->not->toBeNull();
-    expect(DrillResult::where('mining_article_id', $article2->id)->count())->toBe(2);
+    // Use reflection to call protected syncDrillResults on the same article
+    $method = new \ReflectionMethod($processor, 'syncDrillResults');
+    $method->invoke($processor, $article, $newData);
+
+    // Old results should be replaced, not appended
+    expect(DrillResult::where('mining_article_id', $article->id)->count())->toBe(2);
+    expect(DrillResult::where('hole_id', 'DDH-24-001')->count())->toBe(0);
+    expect(DrillResult::where('hole_id', 'DDH-24-010')->count())->toBe(1);
 });
 
 it('stores various unit types correctly', function () {
